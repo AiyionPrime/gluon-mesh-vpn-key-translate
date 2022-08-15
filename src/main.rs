@@ -140,6 +140,7 @@ fn main() {
             mont.to_bytes()
         }
     };
+
     match args.of {
         None => println!("{}", b64_encode(&result_bytes)),
         Some(of_path) => {
@@ -148,17 +149,14 @@ fn main() {
             let mut file = match File::create(&of_path) {
                 Err(reason) => {
                     error!("Could not create {}: {}.", display, reason);
-                    exit(1)
+                    exit(1);
                 }
                 Ok(file) => file,
             };
 
-            match file.write_all((b64_encode(&result_bytes) + "\n").as_bytes()) {
-                Err(reason) => {
-                    error!("Could not write to {}: {}", display, reason);
-                    exit(1);
-                }
-                Ok(_) => (),
+            if let Err(reason) = file.write_all((b64_encode(&result_bytes) + "\n").as_bytes()) {
+                error!("Could not write to {}: {}", display, reason);
+                exit(1);
             }
         }
     }
