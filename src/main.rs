@@ -1,5 +1,5 @@
 use base64::encode as b64_encode;
-use clap::{CommandFactory, ErrorKind, Parser};
+use clap::{builder::ValueParser, CommandFactory, ErrorKind, Parser};
 use env_logger::{fmt::Color, Builder, Env};
 use hex::FromHex;
 use libecdsautil::compressed_points::CompressedLegacyX;
@@ -10,7 +10,7 @@ use std::io::stdin;
 use std::io::BufRead;
 use std::io::BufReader;
 use std::io::Write;
-use std::path::Path;
+use std::path::PathBuf;
 use std::process::exit;
 
 /// Translates fastd to WireGuard keys
@@ -28,9 +28,9 @@ struct Args {
         value_name = "PATH",
         conflicts_with = "key",
         default_value = "-",
-        parse(from_os_str)
+        value_parser(ValueParser::new(parse_opt_path))
     )]
-    r#if: std::path::PathBuf,
+    r#if: OptPath,
 
     /// Output file, or - to write to stdout
     #[clap(
@@ -38,13 +38,22 @@ struct Args {
         long,
         value_name = "PATH",
         default_value = "-",
-        parse(from_os_str)
+        value_parser(ValueParser::new(parse_opt_path))
     )]
-    of: std::path::PathBuf,
+    of: OptPath,
 
     /// Whether the given key is a secret key (<KEY> and --private are mutually exclusive)
     #[clap(short, long, action, visible_alias = "secret")]
     private: bool,
+}
+
+type OptPath = Option<PathBuf>;
+fn parse_opt_path(possible_dash: &str) -> Result<OptPath, std::io::Error> {
+    // this is not safe to call on arguments, that have optional values
+    if possible_dash == "-" {
+        return Ok(None);
+    }
+    Ok(Some(PathBuf::from(possible_dash)))
 }
 
 fn main() {
@@ -69,18 +78,7 @@ fn main() {
 
     let args = Args::parse();
 
-    //TODO make a TypedValueParser from this
-    let clean_if_path = match args.r#if {
-        p if p == Path::new("-") => None,
-        p => Some(p),
-    };
-
-    let clean_of_path = match args.of {
-        p if p == Path::new("-") => None,
-        p => Some(p),
-    };
-
-    let (private, input_file, public_key) = (args.private, clean_if_path, args.key);
+    let (private, input_file, public_key) = (args.private, args.r#if, args.key);
 
     let opt_key_bytes: Result<[u8; 32], hex::FromHexError> = match (private, input_file, public_key)
     {
@@ -142,7 +140,7 @@ fn main() {
             mont.to_bytes()
         }
     };
-    match clean_of_path {
+    match args.of {
         None => println!("{}", b64_encode(&result_bytes)),
         Some(of_path) => {
             let display = of_path.display();
