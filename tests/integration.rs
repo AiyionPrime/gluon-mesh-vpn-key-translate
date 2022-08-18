@@ -64,6 +64,63 @@ mod integration {
     }
 
     #[test]
+    fn translate_public_key_from_config_file() {
+        let mut cmd = Command::cargo_bin(BIN).unwrap();
+        let assert = cmd
+            .args(&["--if", "./tests/assets/config_keys/fastd_public_config"])
+            .assert();
+        assert.success().stdout(WG_PUBLIC.nl());
+    }
+
+    #[test]
+    fn translate_public_key_from_config_file_comments() {
+        let mut cmd = Command::cargo_bin(BIN).unwrap();
+        let assert = cmd
+            .args(&[
+                "--if",
+                "./tests/assets/config_keys/fastd_public_config_comments",
+            ])
+            .assert();
+        assert.success().stdout(WG_PUBLIC.nl());
+    }
+
+    #[test]
+    fn translate_public_key_from_config_file_invalid() {
+        let mut cmd = Command::cargo_bin(BIN).unwrap();
+        let assert = cmd
+            .args(&[
+                "--if",
+                "./tests/assets/config_keys/fastd_public_config_invalid",
+            ])
+            .assert();
+        assert.failure();
+    }
+
+    #[test]
+    fn translate_public_key_from_config_file_no_newline_eof() {
+        let mut cmd = Command::cargo_bin(BIN).unwrap();
+        let assert = cmd
+            .args(&[
+                "--if",
+                "./tests/assets/config_keys/fastd_public_config_no_newline_eof",
+            ])
+            .assert();
+        assert.success().stdout(WG_PUBLIC.nl());
+    }
+
+    #[test]
+    fn translate_public_key_from_config_file_spaced() {
+        let mut cmd = Command::cargo_bin(BIN).unwrap();
+        let assert = cmd
+            .args(&[
+                "--if",
+                "./tests/assets/config_keys/fastd_public_config_spaced",
+            ])
+            .assert();
+        assert.success().stdout(WG_PUBLIC.nl());
+    }
+
+    #[test]
     fn translate_private_key_from_file() {
         let mut cmd = Command::cargo_bin(BIN).unwrap();
         let assert = cmd

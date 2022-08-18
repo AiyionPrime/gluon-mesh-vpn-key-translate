@@ -41,7 +41,15 @@ aMLMgPlQVLbt1wuzVRQq3FTZAsaX/hztyJjfcbeeT3Y=
 
 ### `--if` and `--of`
 
-Instead of using `stdin` and `stdout`, input- and and output-files can be specified using the options `--if` and `--of` that each take a path of a file as argument:
+Instead of using `stdin` and `stdout`, input- and and output-files can be specified using the options `--if` and `--of` that each take a path of a file as argument. To translate a public key[^2]:
+
+```bash
+gluon-mesh-vpn-key-translate --if fastd_public
+```
+
+```console
+Gluon+LYDa2ib6EDnWlRELwrst1s1Ut7WKNR5LMI83c=
+```
 
 Note: It is recommended for private keys to be only read- and writable by the owner.
 It is recommended to set appropriate `umask` beforehand, whenever secret keys are stored.
@@ -59,10 +67,12 @@ total 4
 
 ### Furthermore
 
-`--version` emits the current version[^2]
+`--version` emits the current version[^3]
 
 `--help` provides a short usage info.
 
 [^1]: `fastd_secret` is a file that contains the exemplary private key `68c2cc80f95054b6edd70bb355142adc54d902c697fe1cedc898df71b79e4f76`.
 
-[^2]: This project follows [SemVer](https://semver.org/) and won't introduce backwards incompatible changes without incrementation of the major version.
+[^2]: `fastd_public` is a file that either contains the raw hex string or the fastd-config-form instead: `key "12760ee9088d7b737a11c21c587ab73b64be3c2834eaef6185ec66c3c05c1d78";`.
+
+[^3]: This project follows [SemVer](https://semver.org/) and won't introduce backwards incompatible changes without incrementation of the major version.

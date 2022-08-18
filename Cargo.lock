@@ -345,6 +345,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "envy"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f47e0157f2cb54f5ae1bd371b30a2ae4311e1c028f575cd4e81de7353215965"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "ff"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -401,7 +410,7 @@ checksum = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
 
 [[package]]
 name = "gluon-mesh-vpn-key-translate"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "assert_cmd",
  "base64",
@@ -411,6 +420,7 @@ dependencies = [
  "hex",
  "libecdsautil",
  "log",
+ "recap",
  "serde",
 ]
 
@@ -699,6 +709,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d34f1408f55294453790c48b2f1ebbb1c5b4b7563eb1f418bcfcfdbb06ebb4e7"
 dependencies = [
  "getrandom 0.2.7",
+]
+
+[[package]]
+name = "recap"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1b84f9c7279574f690e197e145d199635660fbb082e4b2d88735bd80b564399e"
+dependencies = [
+ "envy",
+ "lazy_static",
+ "recap-derive",
+ "regex",
+ "serde",
+]
+
+[[package]]
+name = "recap-derive"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8579e70fa229d398c7596ece29002416296e5769229a9da5f8e573b9001523f3"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "regex",
+ "syn",
 ]
 
 [[package]]

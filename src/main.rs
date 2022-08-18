@@ -1,7 +1,9 @@
+mod fastd_key;
+
 use base64::encode as b64_encode;
 use clap::{builder::ValueParser, CommandFactory, ErrorKind, Parser};
 use env_logger::{fmt::Color, Builder, Env};
-use hex::FromHex;
+use fastd_key::{parse_from_config, parse_from_raw};
 use libecdsautil::compressed_points::CompressedLegacyX;
 use log::Level;
 use log::{error, warn};
@@ -80,9 +82,8 @@ fn main() {
 
     let (private, input_file, public_key) = (args.private, args.r#if, args.key);
 
-    let opt_key_bytes: Result<[u8; 32], hex::FromHexError> = match (private, input_file, public_key)
-    {
-        (false, None, Some(public)) => <[u8; 32]>::from_hex(public),
+    let opt_key_bytes: Option<[u8; 32]> = match (private, input_file, public_key) {
+        (false, None, Some(public)) => parse_from_raw(&public),
         (true, None, Some(_)) => {
             let mut cmd = Args::command();
             warn!("Possible pollution of shell history and/or logs with a private key.");
@@ -103,22 +104,21 @@ fn main() {
                     exit(1);
                 }
             };
-            let mut buffer = BufReader::new(file);
-            let mut first_line = String::new();
-            let _ = buffer.read_line(&mut first_line);
-            <[u8; 32]>::from_hex(first_line.trim())
+            BufReader::new(file)
+                .lines()
+                .filter_map(Result::ok)
+                .filter_map(|line| parse_from_raw(&line).or_else(|| parse_from_config(&line)))
+                .next()
         }
-        (_, None, None) => {
-            <[u8; 32]>::from_hex(stdin().lock().lines().next().unwrap().unwrap().trim())
-        }
+        (_, None, None) => parse_from_raw(&stdin().lock().lines().next().unwrap().unwrap()),
         (_, Some(_), Some(_)) => {
             unimplemented!("This should've been caught by clap due to `conflicts_with = \"key\",`")
         }
     };
 
     let key_bytes = match opt_key_bytes {
-        Ok(bytes) => bytes,
-        Err(_) => {
+        Some(bytes) => bytes,
+        None => {
             error!("Invalid KeyFormat: Unable to decode hex.");
             exit(1);
         }
