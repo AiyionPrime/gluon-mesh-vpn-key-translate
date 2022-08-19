@@ -11,10 +11,9 @@ license = "BSD-2-Clause"
 [dependencies]
 base64 = "0.13.0"
 clap = { version = "3.0", features = ["derive"] }
-dryoc = "0.3.13"
 env_logger = "0.9"
 hex = { version = "0.4", features = ["serde"] }
-libecdsautil = "0.1.1"
+libecdsautil = "0.1.2"
 log = "0.4"
 recap = "0.1"
 serde = { version = "1.0", features = ["derive"] }
