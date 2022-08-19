@@ -104,11 +104,19 @@ fn main() {
                     exit(1);
                 }
             };
-            BufReader::new(file)
+            let buf = BufReader::new(file)
                 .lines()
                 .filter_map(Result::ok)
                 .filter_map(|line| parse_from_raw(&line).or_else(|| parse_from_config(&line)))
-                .next()
+                .next();
+            if None == buf {
+                let variant = match private {
+                    true => "private",
+                    false => "public",
+                };
+                warn!("Unable to read {} key from {:?}", variant, &p);
+            }
+            buf
         }
         (_, None, None) => parse_from_raw(&stdin().lock().lines().next().unwrap().unwrap()),
         (_, Some(_), Some(_)) => {
