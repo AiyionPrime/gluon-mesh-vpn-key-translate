@@ -1,6 +1,6 @@
 [package]
 name = "gluon-mesh-vpn-key-translate"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 description = "Translates fastd to WireGuard keys."
 repository = "https://github.com/AiyionPrime/gluon-mesh-vpn-key-translate.git"
