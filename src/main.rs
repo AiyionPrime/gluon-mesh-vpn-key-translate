@@ -148,7 +148,7 @@ fn main() {
             let decomp = match packed_ed25519.decompress() {
                 Some(d) => d,
                 None => {
-                    error!("Given key does not represent a valid X-coordinate on Edwards25519.");
+                    error!("Invalid KeyFormat: Given key does not represent a valid X-coordinate on Edwards25519.");
                     exit(1);
                 }
             };
