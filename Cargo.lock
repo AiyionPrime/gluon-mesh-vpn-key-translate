@@ -463,9 +463,9 @@ checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
 
 [[package]]
 name = "libecdsautil"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec7af21d38b02da249afd4ea61baf1b44d8a3647e91ad79cd7234b287d1ccab5"
+checksum = "f7cd1d334a6400cb2cf269a45d3a6df9e7a8a80d686e95874ab652d29e55f2cf"
 dependencies = [
  "crypto-bigint",
  "curve25519-dalek",

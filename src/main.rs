@@ -135,7 +135,15 @@ fn main() {
     let result_bytes = match args.private {
         true => key_bytes,
         false => {
-            let fastd_pubkey = CompressedLegacyX(key_bytes);
+            let fastd_pubkey = match CompressedLegacyX::try_from(key_bytes) {
+                Ok(d) => d,
+                Err(_) => {
+                    error!(
+                        "Invalid KeyFormat: Given key does not represent a valid point in GF(19²)."
+                    );
+                    exit(1);
+                }
+            };
             let packed_ed25519 = fastd_pubkey.to_compressed_edwards_x();
             let decomp = match packed_ed25519.decompress() {
                 Some(d) => d,
