@@ -224,9 +224,9 @@ dependencies = [
 
 [[package]]
 name = "dalek-ff-group"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3112acb124b70aeaa8428801af285c6b33ff4b29af51d7961acfe57a559aaaca"
+checksum = "a93ebbbc2664d4eada23a4f44915ced6f24e3a9be551e204e437cc6dc0ef8ccf"
 dependencies = [
  "crypto-bigint",
  "curve25519-dalek",
@@ -354,7 +354,7 @@ checksum = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
 
 [[package]]
 name = "gluon-mesh-vpn-key-translate"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "assert_cmd",
  "base64",
@@ -463,9 +463,9 @@ checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
 
 [[package]]
 name = "libecdsautil"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7cd1d334a6400cb2cf269a45d3a6df9e7a8a80d686e95874ab652d29e55f2cf"
+checksum = "3918a9dc371a93b52a5df2955df77e0a9391a53152bb0a0df8eb6038d92fe8d6"
 dependencies = [
  "crypto-bigint",
  "curve25519-dalek",
@@ -704,18 +704,18 @@ checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
 
 [[package]]
 name = "serde"
-version = "1.0.143"
+version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53e8e5d5b70924f74ff5c6d64d9a5acd91422117c60f48c4e07855238a254553"
+checksum = "0f747710de3dcd43b88c9168773254e809d8ddbdf9653b84e2554ab219f17860"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.143"
+version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d3d8e8de557aee63c26b85b947f5e59b690d0454c753f3adeb5cd7835ab88391"
+checksum = "94ed3a816fb1d101812f83e789f888322c34e291f894f19590dc310963e87a00"
 dependencies = [
  "proc-macro2",
  "quote",
